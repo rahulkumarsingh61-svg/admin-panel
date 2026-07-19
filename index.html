@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AeroStream Panel - Generate</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #0b0f19;
+            color: #f8fafc;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .brand-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #06b6d4;
+            margin-bottom: 24px;
+            letter-spacing: 0.5px;
+        }
+        .brand-icon {
+            width: 10px;
+            height: 10px;
+            background-color: #06b6d4;
+            border-radius: 50%;
+            display: inline-block;
+            box-shadow: 0 0 8px rgba(6, 182, 212, 0.6);
+        }
+        .card {
+            background-color: #111827;
+            border: 1px solid #1f2937;
+            border-radius: 12px;
+            padding: 40px;
+            max-width: 500px;
+            width: 100%;
+            box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.5);
+            text-align: center;
+        }
+        .status-indicators {
+            display: flex;
+            justify-content: center;
+            gap: 6px;
+            margin-bottom: 20px;
+        }
+        .dot {
+            width: 8px;
+            height: 8px;
+            background-color: #374151;
+            border-radius: 50%;
+        }
+        .dot.active {
+            background-color: #06b6d4;
+            box-shadow: 0 0 6px rgba(6, 182, 212, 0.5);
+        }
+        h1 {
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin-bottom: 16px;
+            color: #ffffff;
+        }
+        p {
+            color: #9ca3af;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 24px;
+        }
+        .action-container {
+            margin-top: 20px;
+            padding: 20px;
+            background-color: #070a12;
+            border-radius: 8px;
+            border: 1px dashed #1f2937;
+            text-align: left;
+        }
+        label {
+            display: block;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: #9ca3af;
+            text-transform: uppercase;
+            margin-bottom: 6px;
+        }
+        input {
+            width: 100%;
+            padding: 12px;
+            background-color: #111827;
+            border: 1px solid #1f2937;
+            border-radius: 6px;
+            color: #fff;
+            margin-bottom: 16px;
+            font-size: 0.95rem;
+        }
+        input:focus {
+            outline: none;
+            border-color: #06b6d4;
+        }
+        .btn {
+            display: inline-block;
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(90deg, #06b6d4 0%, #3b82f6 100%);
+            color: #ffffff;
+            font-weight: 600;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: opacity 0.2s;
+            text-decoration: none;
+            font-size: 1rem;
+            text-align: center;
+        }
+        .btn:hover {
+            opacity: 0.9;
+        }
+        .result-panel {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #1f2937;
+            display: none;
+        }
+        .result-title {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: #06b6d4;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+        }
+        .link-card {
+            background: #111827;
+            border: 1px solid #1f2937;
+            border-radius: 6px;
+            padding: 12px;
+            margin-bottom: 12px;
+        }
+        .link-label {
+            font-size: 0.75rem;
+            color: #6b7280;
+            margin-bottom: 4px;
+        }
+        .link-value {
+            font-family: monospace;
+            font-size: 0.85rem;
+            color: #e5e7eb;
+            word-break: break-all;
+            user-select: all;
+        }
+        .footer-text {
+            margin-top: 24px;
+            font-size: 0.85rem;
+            color: #6b7280;
+            max-width: 450px;
+            text-align: center;
+            line-height: 1.5;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="brand-header">
+        <span class="brand-icon"></span> AeroStream Panel
+    </div>
+
+    <div class="card">
+        <div class="status-indicators">
+            <span class="dot active"></span>
+            <span class="dot"></span>
+            <span class="dot"></span>
+            <span class="dot"></span>
+            <span class="dot"></span>
+        </div>
+
+        <h1>Get your free 7-day link</h1>
+        
+        <p>
+            Unlock a personal, permanent AeroStream playlist link. Complete the quick
+            step below and it's ready instantly — valid for 7 days, renewable
+            the same way once it's close to expiring.
+        </p>
+
+        <div class="action-container">
+            <label for="m3uUrl">Your Custom M3U URL:</label>
+            <input type="url" id="m3uUrl" placeholder="https://example.com/playlist.m3u" required>
+            
+            <button class="btn" onclick="generateTokenPlaylist()">Generate Link Now</button>
+
+            <!-- Working outputs show here -->
+            <div class="result-panel" id="outputPanel">
+                <div class="result-title">Generated Deployments</div>
+                
+                <div class="link-card">
+                    <div class="link-label">Token Stream Access Path</div>
+                    <div class="link-value" id="outTokenUrl"></div>
+                </div>
+
+                <div class="link-card">
+                    <div class="link-label">Asynchronous Service Renewal Hook</div>
+                    <div class="link-value" id="outRenewUrl"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <p class="footer-text">
+        Already have a link? Use the dashboard link you were given instead of generating a new one.
+    </p>
+
+    <script>
+        function generateTokenPlaylist() {
+            const m3uUrl = document.getElementById('m3uUrl').value;
+            
+            if (!m3uUrl || !m3uUrl.startsWith('http')) {
+                alert('Please enter a valid M3U URL starting with http:// or https://');
+                return;
+            }
+
+            const baseGenUrl = "https://vplink.in/haJC";
+            const baseRenewUrl = "https://vplinks.in/Renew2";
+
+            const uniqueId = Math.random().toString(36).substring(2, 12).toUpperCase();
+            const expiryDate = new Date();
+            expiryDate.setDate(expiryDate.getDate() + 7); // Fixed 7 days validity
+
+            const generatedPlaylist = {
+                id: uniqueId,
+                originalM3u: m3uUrl,
+                expiry: expiryDate.toISOString(),
+                status: "Active"
+            };
+
+            // Save token data into browser sharing memory layer
+            let currentPlaylists = JSON.parse(localStorage.getItem('iptv_playlists')) || [];
+            currentPlaylists.push(generatedPlaylist);
+            localStorage.setItem('iptv_playlists', JSON.stringify(currentPlaylists));
+
+            // Populate the fields
+            document.getElementById('outTokenUrl').innerText = `${baseGenUrl}?token=${uniqueId}&validity=7days`;
+            document.getElementById('outRenewUrl').innerText = `${baseRenewUrl}?playlist_id=${uniqueId}`;
+            
+            // Display the results block
+            document.getElementById('outputPanel').style.display = 'block';
+        }
+    </script>
+
+</body>
+</html>
